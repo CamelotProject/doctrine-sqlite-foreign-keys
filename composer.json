@@ -1,0 +1,27 @@
+{
+    "name": "camelot/doctrine-sqlite-foreign-keys",
+    "description": "Doctrine DBAL SQLite foreign key support",
+    "keywords": ["doctrine", "dbal", "sqlite"],
+    "type": "library",
+    "license": "MIT",
+    "require": {
+        "doctrine/dbal": "^2.10"
+    },
+    "require-dev": {
+        "php": "^7.1",
+        "camelot/coding-style": "^2.0",
+        "doctrine/orm": "^2.6",
+        "friendsofphp/php-cs-fixer": "^2.16",
+        "phpunit/phpunit": "^7.5 || ^8.5 || ^9.3"
+    },
+    "autoload": {
+        "psr-4": {
+            "Camelot\\DoctrineSqliteForeignKeys\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Camelot\\DoctrineSqliteForeignKeys\\Tests\\": "tests"
+        }
+    }
+}
