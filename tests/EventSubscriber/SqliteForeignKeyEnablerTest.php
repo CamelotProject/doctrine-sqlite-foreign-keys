@@ -9,11 +9,11 @@ use Doctrine\Common\EventManager;
 use Doctrine\DBAL\Configuration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
+use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
-use Doctrine\DBAL\Event\ConnectionEventArgs;
 
 /**
  * @covers \Camelot\DoctrineSqliteForeignKeys\EventSubscriber\SqliteForeignKeyEnabler
@@ -22,7 +22,7 @@ use Doctrine\DBAL\Event\ConnectionEventArgs;
  */
 final class SqliteForeignKeyEnablerTest extends TestCase
 {
-    private static array $connectionParams = [
+    private static $connectionParams = [
         'memory' => true,
         'driver' => 'pdo_sqlite',
     ];
