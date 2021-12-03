@@ -5,14 +5,14 @@
     "type": "library",
     "license": "MIT",
     "require": {
-        "doctrine/dbal": "^2.10"
+        "php": "^7.2 || ^8.0",
+        "doctrine/dbal": "^2.13 || ^3.0"
     },
     "require-dev": {
-        "php": "^7.2",
-        "camelot/coding-style": "^2.0",
-        "doctrine/orm": "^2.6",
-        "friendsofphp/php-cs-fixer": "^2.16",
-        "phpunit/phpunit": "^8.5 || ^9.3"
+        "camelot/coding-style": "^3.0",
+        "doctrine/orm": "^2.6 || ^3.0",
+        "friendsofphp/php-cs-fixer": "^3.0",
+        "phpunit/phpunit": "^9.5"
     },
     "autoload": {
         "psr-4": {
