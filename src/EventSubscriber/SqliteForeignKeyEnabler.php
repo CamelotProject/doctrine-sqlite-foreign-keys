@@ -7,6 +7,7 @@ namespace Camelot\DoctrineSqliteForeignKeys\EventSubscriber;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\DBAL\Event\ConnectionEventArgs;
 use Doctrine\DBAL\Events;
+use Doctrine\DBAL\Platforms\SqlitePlatform;
 
 final class SqliteForeignKeyEnabler implements EventSubscriber
 {
@@ -15,13 +16,12 @@ final class SqliteForeignKeyEnabler implements EventSubscriber
         return [Events::postConnect];
     }
 
-    /** @throws \Doctrine\DBAL\DBALException */
     public function postConnect(ConnectionEventArgs $args): void
     {
-        if (strtolower($args->getConnection()->getDatabasePlatform()->getName()) !== 'sqlite') {
+        if (!$args->getConnection()->getDatabasePlatform() instanceof SqlitePlatform) {
             return;
         }
 
-        $args->getConnection()->exec('PRAGMA foreign_keys = ON;');
+        $args->getConnection()->executeQuery('PRAGMA foreign_keys = ON;');
     }
 }

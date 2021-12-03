@@ -14,6 +14,7 @@ use Doctrine\DBAL\Events;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use PHPUnit\Framework\TestCase;
 use Symfony\Component\Filesystem\Filesystem;
+use function sprintf;
 
 /**
  * @covers \Camelot\DoctrineSqliteForeignKeys\EventSubscriber\SqliteForeignKeyEnabler
@@ -50,12 +51,6 @@ final class SqliteForeignKeyEnablerTest extends TestCase
     public function testSqlitePlatformOnly(): void
     {
         $platform = $this->createMock(AbstractPlatform::class);
-        $platform
-            ->expects(static::once())
-            ->method('getName')
-            ->willReturn('pandas')
-        ;
-
         $connection = $this->createMock(Connection::class);
         $connection
             ->expects(static::once())
@@ -83,7 +78,7 @@ final class SqliteForeignKeyEnablerTest extends TestCase
         $connection = DriverManager::getConnection(self::$connectionParams, $config, $evm);
         $connection->connect();
 
-        static::assertEmpty($connection->getSchemaManager()->listTables());
+        static::assertEmpty($connection->createSchemaManager()->listTables());
 
         return $connection;
     }
@@ -91,10 +86,13 @@ final class SqliteForeignKeyEnablerTest extends TestCase
     private static function assertConnectionPragmaForeignKeys(string $expected, Connection $connection): void
     {
         $stmt = $connection->prepare('PRAGMA foreign_keys;');
-        $stmt->execute();
-        $result = $stmt->fetch();
+        $stmt->executeStatement();
+        $result = $stmt->executeQuery()->fetchAssociative();
+        if (!isset($result['foreign_keys'])) {
+            throw new \RuntimeException('PRAGMA query failed');
+        }
 
-        static::assertSame($expected, $result['foreign_keys'] ?? null, 'PRAGMA foreign_keys was not "1"');
+        static::assertSame($expected, $result['foreign_keys'] ?? null, sprintf('PRAGMA foreign_keys was not "%s"', $expected));
     }
 }
 
